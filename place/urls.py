@@ -12,5 +12,4 @@ urlpatterns = [
     path('', include(router.urls)),
     # Other URL patterns
     path('import/', import_from_excel, name='import_from_excel'),
-    *router.urls
 ]
