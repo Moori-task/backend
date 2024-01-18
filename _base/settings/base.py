@@ -13,13 +13,15 @@ from datetime import timedelta
 import os
 from pathlib import Path
 
-from decouple import config
+# from decouple import config
 from environs import Env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 env = Env()
+Env.read_env()
+config = env
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -41,10 +43,7 @@ EXTERNAL_PACKAGES = [
 ]
 
 CUSTOM_APPS = [
-    'utility',
-    'account',
-    'business',
-    'support',
+    'place'
 ]
 
 INSTALLED_APPS = [
@@ -103,17 +102,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Simple JWT
-# https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=config('ACCESS_TOKEN_LIFETIME_MINUTES', cast=int)),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=config('REFRESH_TOKEN_LIFETIME_DAYS', cast=int)),
-    'ROTATE_REFRESH_TOKENS': True,
-    'ALGORITHM': 'HS512',
-    'SIGNING_KEY': config('JWT_PRIVATE_KEY'),
-    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

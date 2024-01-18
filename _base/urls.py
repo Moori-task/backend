@@ -22,8 +22,4 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path("api/account/", include('account.urls')),
-    path("api/business/", include('business.urls')),
-    path("api/support/", include('support.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
