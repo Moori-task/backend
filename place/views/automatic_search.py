@@ -11,7 +11,7 @@ class PlaceFilter(filters.FilterSet):
         fields = {
             'capacity': ['exact'],
             'rate': ['gte'],
-            # TODO: area_size
+            'area_size': ['lte', 'gte']
         }
 
 class PlaceSerializer(serializers.ModelSerializer):
