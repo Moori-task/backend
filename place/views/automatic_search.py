@@ -29,3 +29,5 @@ class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PlaceFilter
     
+    def filter_queryset(self, queryset):
+        return super().filter_queryset(queryset)[:5]
