@@ -17,7 +17,7 @@ class PlaceFilter(filters.FilterSet):
 class PlaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Place
-        fields = ['id', 'code']
+        fields = '__all__'
 
 class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
     """
