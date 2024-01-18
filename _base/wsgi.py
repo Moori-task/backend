@@ -1,5 +1,5 @@
 """
-WSGI config for poshtiban project.
+WSGI config for moori project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

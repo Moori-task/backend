@@ -4,9 +4,9 @@ services:
   db:
     image: postgres:13.6-bullseye
     environment:
-      POSTGRES_DB: poshtiban
-      POSTGRES_USER: poshtiban
-      POSTGRES_PASSWORD: poshtiban
+      POSTGRES_DB: moori
+      POSTGRES_USER: moori
+      POSTGRES_PASSWORD: moori
     ports:
       - "127.0.0.1:5432:5432"
     volumes:

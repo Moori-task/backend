@@ -1,5 +1,5 @@
 """
-ASGI config for poshtiban project.
+ASGI config for moori project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
