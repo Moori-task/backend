@@ -22,4 +22,5 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/place/", include('place.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
