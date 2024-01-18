@@ -5,6 +5,8 @@ from place.models import Place
 import tablib
 
 class ImportFromExcel(views.APIView):
+    permission_classes = []
+
     def post(self, request):
         excel_file = request.FILES['excel_file']
         dataset = tablib.import_set(excel_file)
