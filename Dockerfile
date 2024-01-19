@@ -1,4 +1,4 @@
-FROM python:3.10.2-bullseye
+FROM docker.repos.balad.ir/python:3.10.0
 
 WORKDIR /src/
 

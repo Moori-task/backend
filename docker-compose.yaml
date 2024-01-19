@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:13.6-bullseye
+    image: docker.repos.balad.ir/postgres:13.6
     environment:
       POSTGRES_DB: moori
       POSTGRES_USER: moori
