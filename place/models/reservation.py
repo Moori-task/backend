@@ -2,7 +2,7 @@ from django.db import models
 
 
 class ReserveSlot(models.Model):
-    code = models.ForeignKey(
+    place = models.ForeignKey(
         to="place.Place", related_name="reserve_slots", on_delete=models.CASCADE
     )
 
