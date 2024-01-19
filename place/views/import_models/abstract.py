@@ -1,11 +1,10 @@
 from django.http import HttpRequest
 from django.shortcuts import render
-from rest_framework import views
 
 from abc import ABC, abstractmethod
 
 
-class ImportModelView(views.APIView, ABC):
+class ImportModelMixin(ABC):
     def post(self, request):
         dataset_file = self.__read_file_from_request(request)
         dataset = self._load_dataset(dataset_file)

@@ -1,11 +1,12 @@
 # Create your views here.
+from rest_framework import views
 from place.models import Place
 import tablib
 
-from .abstract import ImportModelView
+from .abstract import ImportModelMixin
 
 
-class ImportPlaceView(ImportModelView):
+class ImportPlaceView(ImportModelMixin, views.APIView):
     permission_classes = []
 
     def _load_dataset(self, dataset_file):

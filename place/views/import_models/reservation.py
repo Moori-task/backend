@@ -1,10 +1,10 @@
 import tablib
-
+from rest_framework import views
 from place.models.reservation import ReserveSlot
-from .abstract import ImportModelView
+from .abstract import ImportModelMixin
 
 
-class ImportReservationView(ImportModelView):
+class ImportReservationView(ImportModelMixin, views.APIView):
     permission_classes = []
 
     def _load_dataset(self, dataset_file):
