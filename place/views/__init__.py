@@ -1,3 +1,3 @@
-from .import_from_excel import ImportFromExcel
+from .import_place import ImportPlace
 
 from .automatic_search import PlaceViewSet
