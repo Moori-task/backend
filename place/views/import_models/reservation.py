@@ -23,7 +23,7 @@ class ImportReservation(views.APIView):
         return render(request, "import/init.html")
 
     def __get_file_from_request(self, request: "HttpRequest"):
-        return request.FILES["excel_file"].read()
+        return request.FILES["excel_file"].read().decode("utf-8")
 
     def __load_dataset(self, dataset_file):
         return tablib.Dataset().load(dataset_file, format="csv")
@@ -32,7 +32,7 @@ class ImportReservation(views.APIView):
         # TODO: use django_import_export
         for row in dataset.dict:
             ReserveSlot.objects.create(
-                place=row["acc_code"],
+                place_id=row["acc_code"],
                 date=row["DateEn"].replace("/", "-"),
                 status=row["Status"],
             )
