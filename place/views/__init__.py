@@ -1,3 +1,2 @@
-from .import_place import ImportPlace
-
+from .import_models import *
 from .automatic_search import PlaceViewSet
