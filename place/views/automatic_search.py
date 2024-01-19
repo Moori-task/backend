@@ -8,30 +8,31 @@ from django_filters.conf import settings
 from django_filters.constants import EMPTY_VALUES
 from place.models.reservation import ReserveSlot
 
-
+# TODO refactoring: decouple date,status
 class ReservationBasedFilter(filters.DateFromToRangeFilter):
+    def __init__(self):
+        super().__init__(field_name="reserve_slots__date")
+
     def filter(self, places, value):
         places = super().filter(places, value)
-        if not self.filtered(places, value):
+        if not self.__filtered(places, value):
             return places
         return self.__get_available_places(places, value)
     
-    def filtered(self, places, value):
-        return self.process_value(value) not in EMPTY_VALUES
+    def __filtered(self, places, value):
+        return self.__process_value(value) not in EMPTY_VALUES
 
     def __get_available_places(self, places, value):
         reserved_places = self.__get_reserved_places(places, value)
         return places.exclude(code__in=reserved_places).distinct()
     
     def __get_reserved_places(self, places, value):
-        value = self.process_value(value)
-        lookup = "%s__%s" % (self.field_name, self.lookup_expr)
         return places.filter(**{
-            lookup: value,
-            "reserve_slots__status":ReserveSlot.ReserveSlotStatus.reserved
+            f"reserve_slots__date__{self.lookup_expr}": self.__process_value(value),
+            "reserve_slots__status": ReserveSlot.ReserveSlotStatus.reserved
         })
     
-    def process_value(self, value):
+    def __process_value(self, value):
         if value:
             if value.start is not None and value.stop is not None:
                 return (value.start, value.stop)
@@ -43,7 +44,7 @@ class ReservationBasedFilter(filters.DateFromToRangeFilter):
 
 
 class BasicPlaceFilterSet(filters.FilterSet):
-    reserve_date = ReservationBasedFilter(field_name="reserve_slots__date")
+    reserve_date = ReservationBasedFilter()
 
     def filter_queryset(self, queryset):
         queryset = super().filter_queryset(queryset)
