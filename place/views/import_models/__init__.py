@@ -1,2 +1,2 @@
-from .place import ImportPlace
-from .reservation import ImportReservation
+from .place import ImportPlaceView
+from .reservation import ImportReservationView
