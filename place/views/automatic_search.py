@@ -5,47 +5,39 @@ from place.models.place import Place
 
 
 from django_filters import rest_framework as filters
-
+from django_filters.conf import settings
 from place.models.reservation import ReserveSlot
 
+
+class ReservationBasedFilter(filters.DateFromToRangeFilter):
+    def filter(self, qs, value):
+        qs = super().filter(qs, value)
+        if self.__queried(qs, value):
+            qs = self.__get_available_places(qs)
+        return qs
+
+    def __get_available_places(self, qs):
+        # assert queryset = Join Place, Reserve
+        reserved_places = qs.filter(reserve_slots__status=ReserveSlot.ReserveSlotStatus.reserved).distinct()
+        places = qs.distinct()
+        available_places = places.exclude(code__in=reserved_places)
+        return available_places
+    
+    def __queried(self, qs, value) -> bool:
+        # It should figure out whether a request is queried by reservation_date
+        # TODO improve
+        return self.lookup_expr != settings.DEFAULT_LOOKUP_EXPR
+
+
 class BasicPlaceFilterSet(filters.FilterSet):
+    reserve_date = ReservationBasedFilter(field_name='reserve_slots__date')
     class Meta:
         model = Place
         fields = {
             'capacity': ['exact'],
             'rate': ['gte'],
-            'area_size': ['lte', 'gte']
-        }
-
-class ReserveBasedPlaceFilterSet(filters.FilterSet):
-    def __init__(self, base_filter_set: "filters.FilterSet", *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__base_filter_set = base_filter_set
-    
-    def filter_queryset(self, queryset):
-        queryset = self.__base_filter_set.filter_queryset(queryset)
-        queryset = super().filter_queryset(queryset)
-        if self.__queried(queryset):
-            queryset = self.__get_available_places(queryset)
-        return queryset
-    
-    def __get_available_places(self, queryset):
-        # assert queryset = Join Place, Reserve
-        reserved_places = queryset.filter(status=ReserveSlot.ReserveSlotStatus.reserved).distinct()
-        places = queryset.distinct()
-        available_places = places.exclude(code__in=reserved_places)
-        return available_places
-    
-    def __queried(self, queryset) -> bool:
-        # It should figure out whether a request is queried by reservation
-        # return queryset = Join Place, Reserve
-        # TODO improve
-        return True
-    
-    class Meta:
-        model = Place
-        fields = {
-            'reserved_slot__date': ['lte', 'gte']
+            'area_size': ['lte', 'gte'],
+            # 'reserve_slots__date': ['lte', 'gte']
         }
     
 
