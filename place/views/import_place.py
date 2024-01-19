@@ -21,10 +21,10 @@ class ImportPlace(views.APIView):
         return render(request, "import/init.html")
 
     def __get_file_from_request(self, request: "HttpRequest"):
-        return request.FILES["excel_file"]
+        return request.FILES["excel_file"].read()
 
     def __load_dataset(self, dataset_file):
-        return tablib.import_set(dataset_file)
+        return tablib.Dataset().load(dataset_file, format="xlsx")
     
     def __import_from_dataset(self, dataset: "tablib.Dataset"):
         # TODO: use django_import_export
